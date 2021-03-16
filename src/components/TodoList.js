@@ -156,7 +156,7 @@ const TodoList = () => {
                                         <span style={{ float: "right" }}><i className="fa fa-times-circle" onClick={() => { removeItem(e) }}></i></span>
                                         <span style={{ float: "right" }}><i className="fa fa-check-circle" onClick={() => { completeItem(e) }}></i></span>
                                         <span style={{ float: "right" }}><i className="fa fa-edit" onClick={() => updateItem(e)}></i></span>
-                                        <span>{e.priority}</span>
+                                        <span>{e.priority}</span><br/>
                                         <span>{e.isCompleted ? <strike>{e.content}</strike> : e.content} </span><br />
                                       
                                     </div>
