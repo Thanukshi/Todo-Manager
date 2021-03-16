@@ -139,10 +139,10 @@ const TodoList = () => {
                     <h5 className="p-4">Colour : </h5>
                     <select className="form-select" aria-label="Default select example" onChange={handleChangeFilter}>
                         <option value="All">All</option>
-                        <option value="#0984e3">Red</option>
-                        <option value="#6c5ce7">Green</option>
-                        <option value="#fd79a8">Yellow</option>
-                        <option value="#fdcb6e">Blue</option>
+                        <option value="#0984e3">Blue</option>
+                        <option value="#6c5ce7">Purple</option>
+                        <option value="#fd79a8">Pink</option>
+                        <option value="#fdcb6e">Yellow</option>
                     </select>
                 </div>
             </div>
