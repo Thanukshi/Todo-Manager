@@ -18,7 +18,7 @@ const TodoList = () => {
     const handleChangeFilter = (e) => {
         if (e.target.value != null && e.target.value != "All") {
             setListData(
-                listData.filter((data) => data.priority.includes(e.target.value) || data.colour.includes(e.target.value))
+                listData.filter((data) => data.priority.includes(e.target.value) || data.colour.includes(e.target.value) || data.content.includes(e.target.value))
             )
         }
 
@@ -96,20 +96,18 @@ const TodoList = () => {
             isCompleted: false
         }
 
-        if (content == null) {
-            toast.error("Content cannot be null!", {
-                position: toast.POSITION.TOP_RIGHT
-            });
+        if (item.content == null) {
+            toast.error("Content cannot be null!");
         }
 
-        if (item.content != null) {
+        if(item.content != null){
             listData.push(item);
             permanentData.push(item);
         }
 
-        setColour("");
-        setContent("");
-        setPriority("");
+        setColour(null);
+        setContent(null);
+        setPriority(null);
     }
 
     return (
@@ -119,7 +117,7 @@ const TodoList = () => {
 
                 <div className="d-flex justify-content">
                     <div className="searchbar">
-                        <input className="search_input" type="text" placeholder="Search..." />
+                        <input className="search_input" type="text" placeholder="Search.." onChange={handleChangeFilter}/>
                     </div>
                 </div>
 
@@ -158,7 +156,6 @@ const TodoList = () => {
                                         <span style={{ float: "right" }}><i className="fa fa-edit" onClick={() => updateItem(e)}></i></span>
                                         <span>{e.priority}</span><br/>
                                         <span>{e.isCompleted ? <strike>{e.content}</strike> : e.content} </span><br />
-                                      
                                     </div>
                                 </div>
                             )
@@ -193,10 +190,11 @@ const TodoList = () => {
                         <select style={{ float: "right" }} onChange={(event) => {
                             setColour(event.target.value);
                         }} value={colour} >
-                            <option value="#0984e3">Red</option>
-                            <option value="#6c5ce7">Green</option>
-                            <option value="#fd79a8">Yellow</option>
-                            <option value="#fdcb6e">Blue</option>
+                        <option value="select">select</option>
+                        <option value="#0984e3">Blue</option>
+                        <option value="#6c5ce7">Purple</option>
+                        <option value="#fd79a8">Pink</option>
+                        <option value="#fdcb6e">Yellow</option>
                         </select>
                     </div>
                 </form>
