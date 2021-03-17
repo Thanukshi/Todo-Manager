@@ -1,5 +1,5 @@
 .header-container{
-  height : 300px;
+  height : 250px;
   background-color: #d5dfe6;
   padding : 25px;
 }
@@ -22,13 +22,16 @@
 }
 
 .todo-list-container{
+  margin-top:30px;
   margin-left:450px; 
-  height : 500px;
+  height : 450px;
   width:700px;
+  overflow: auto;
+  background-color: lightblue;
+  padding: 20px;
 }
 
 .todo-content{
-  margin:18px;
   height: 100px;
   padding: 20px;
 }
@@ -43,7 +46,6 @@
 }
 
   .search_input{
-  color: white;
   border: 0;
   outline: 0;
   background: none;
