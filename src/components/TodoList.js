@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import AddNewTodo from '../modals/AddNewTodo';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 
 const TodoList = () => {
+
+    const [colour, setColour] = useState();
+    const [content, setContent] = useState();
+    const [priority, setPriority] = useState();
+    const [editable, setEditable] = useState(false);
     const [modal, setModal] = useState(false);
-    const [updateData, setUpdateData] = useState({});
     const [listData, setListData] = useState([]);
     const [permanentData, setPermanentData] = useState([]);
     const [completedData, setCompletedData] = useState([]);
@@ -28,27 +31,18 @@ const TodoList = () => {
     }
 
     const updateItem = (e) => {
-
         setModal(true);
         setContent(e.content);
         setPriority(e.priority);
         setColour(e.colour);
-
+        setEditable(true);
+        
         var array = [...listData];
-        var index = array.indexOf(e);
-
-        var item = {
-            key: e.key,
-            content: content,
-            priority: priority,
-            colour: colour,
-            isCompleted: false
-        };
-
+        var index = array.indexOf(e)
         if (index !== -1) {
             array.splice(index, 1);
-            array.push(item);
             setListData(array);
+            setPermanentData(array);
         }
     }
 
@@ -73,6 +67,26 @@ const TodoList = () => {
         }
     }
 
+    const unCompleteItem = (e) => {
+
+        var array = [...listData];
+        var index = array.indexOf(e);
+
+        var item = {
+            key: e.key,
+            content: e.content,
+            priority: e.priority,
+            colour: e.colour,
+            isCompleted: false,
+        };
+
+        if (index !== -1) {
+            array.splice(index, 1);
+            array.push(item);
+            setListData(array);
+        }
+    }
+
     const removeItem = (e) => {
         var array = [...listData];
         var index = array.indexOf(e)
@@ -82,12 +96,8 @@ const TodoList = () => {
         }
     }
 
-    const [colour, setColour] = useState();
-    const [content, setContent] = useState();
-    const [priority, setPriority] = useState();
+    const handleSubmit = () => {
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
         var item = {
             key: Date.now(),
             content: content,
@@ -96,18 +106,20 @@ const TodoList = () => {
             isCompleted: false
         }
 
-        if (item.content == null) {
+        if (item.content == null || item.content == "") {
             toast.error("Content cannot be null!");
         }
 
-        if(item.content != null){
+        if(item.content != null && item.content != ""){
             listData.push(item);
             permanentData.push(item);
+            toast.success("Added sucessfully!");
         }
 
         setColour(null);
         setContent(null);
         setPriority(null);
+        setEditable(false);
     }
 
     return (
@@ -153,8 +165,9 @@ const TodoList = () => {
                                     <div className="todo-content" >
                                         <span style={{ float: "right" }}><i className="fa fa-times-circle" onClick={() => { removeItem(e) }}></i></span>
                                         <span style={{ float: "right" }}><i className="fa fa-check-circle" onClick={() => { completeItem(e) }}></i></span>
+                                        <span style={{ float: "right" }}><i className="fa fa-minus-circle" onClick={() => { unCompleteItem(e) }}></i></span>
                                         <span style={{ float: "right" }}><i className="fa fa-edit" onClick={() => updateItem(e)}></i></span>
-                                        <span>{e.priority}</span><br/>
+                                        <span><h6>{e.priority}</h6></span><br/>
                                         <span>{e.isCompleted ? <strike>{e.content}</strike> : e.content} </span><br />
                                     </div>
                                 </div>
@@ -200,7 +213,7 @@ const TodoList = () => {
                 </form>
             </ModalBody>
             <ModalFooter>
-                <Button type="submit" style={{ width: "500px" }} color="primary" onClick={toggle} onClick={handleSubmit}>Add New</Button>{' '}
+                <Button type="submit" style={{ width: "500px" }} color="primary" onClick={toggle} onClick={handleSubmit}>{editable? 'Update' : 'Add'}</Button>{' '}
             </ModalFooter>
         </Modal>
         </div>
