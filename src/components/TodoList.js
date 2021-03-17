@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-
 const TodoList = () => {
 
     const [colour, setColour] = useState();
@@ -10,24 +9,22 @@ const TodoList = () => {
     const [priority, setPriority] = useState();
     const [editable, setEditable] = useState(false);
     const [modal, setModal] = useState(false);
-    const [listData, setListData] = useState([]);
-    const [permanentData, setPermanentData] = useState([]);
-    const [completedData, setCompletedData] = useState([]);
+    const [list, setList] = useState([]);
+    const [data, setData] = useState([]);
+    const [completed, setCompleted] = useState([]);
 
     const toggle = () => {
         setModal(!modal);
     }
 
     const handleChangeFilter = (e) => {
-        if (e.target.value != null && e.target.value != "All") {
-            setListData(
-                listData.filter((data) => data.priority.includes(e.target.value) || data.colour.includes(e.target.value) || data.content.includes(e.target.value))
+        e.target.value && e.target.value != "All" ? 
+            setList(
+                list.filter((data) => data.priority.includes(e.target.value) || data.colour.includes(e.target.value) || data.content.includes(e.target.value))
             )
-        }
+        :
 
-        else {
-            setListData(permanentData);
-        }
+        setList(data)
     }
 
     const updateItem = (e) => {
@@ -37,19 +34,18 @@ const TodoList = () => {
         setColour(e.colour);
         setEditable(true);
         
-        var array = [...listData];
+        var array = [...list];
         var index = array.indexOf(e)
         if (index !== -1) {
             array.splice(index, 1);
-            setListData(array);
-            setPermanentData(array);
+            setList(array);
         }
     }
 
     const completeItem = (e) => {
-        completedData.push(e);
+        completed.push(e);
 
-        var array = [...listData];
+        var array = [...list];
         var index = array.indexOf(e);
 
         var item = {
@@ -63,13 +59,13 @@ const TodoList = () => {
         if (index !== -1) {
             array.splice(index, 1);
             array.push(item);
-            setListData(array);
+            setList(array);
         }
     }
 
     const unCompleteItem = (e) => {
 
-        var array = [...listData];
+        var array = [...list];
         var index = array.indexOf(e);
 
         var item = {
@@ -83,16 +79,16 @@ const TodoList = () => {
         if (index !== -1) {
             array.splice(index, 1);
             array.push(item);
-            setListData(array);
+            setList(array);
         }
     }
 
     const removeItem = (e) => {
-        var array = [...listData];
+        var array = [...list];
         var index = array.indexOf(e)
         if (index !== -1) {
             array.splice(index, 1);
-            setListData(array);
+            setList(array);
         }
     }
 
@@ -107,25 +103,25 @@ const TodoList = () => {
         }
 
         if (item.content == null || item.content == "") {
-            toast.error("Content cannot be null!");
+            toast.error("Todo content cannot be null!");
         }
 
         if(item.content != null && item.content != ""){
-            listData.push(item);
-            permanentData.push(item);
-            toast.success("Added sucessfully!");
-        }
+            list.push(item);
+            toast.success("Process Done!");
 
-        setColour(null);
-        setContent(null);
-        setPriority(null);
-        setEditable(false);
+            setColour("");
+            setContent("");
+            setPriority("");
+            setEditable(false);
+            setData(list);
+        }
     }
 
     return (
         <div>
             <div className="header-container">
-                <h1>Todo Manager</h1>
+                <h2>Todo Manager</h2>
 
                 <div className="d-flex justify-content">
                     <div className="searchbar">
@@ -136,6 +132,7 @@ const TodoList = () => {
                 <div className="button text-right">
                     <button className="btn btn-primary" onClick={() => setModal(true)}>Add New</button>
                 </div>
+
                 <div className="d-flex align-items-center p-2">
                     <h5 className="p-2">Filter By</h5>
                     <h5 className="p-4">Priority : </h5>
@@ -158,15 +155,15 @@ const TodoList = () => {
             </div>
             <div className="todo-list-container">
                 {
-                    listData.length > 0 && listData.map((e) => (
+                    list.length > 0 && list.map((e) => (
                         (e !== null) ? (
                             (
                                 <div key={e.key} style={{ background: `${e.colour}` }}>
                                     <div className="todo-content" >
-                                        <span style={{ float: "right" }}><i className="fa fa-times-circle" onClick={() => { removeItem(e) }}></i></span>
-                                        <span style={{ float: "right" }}><i className="fa fa-check-circle" onClick={() => { completeItem(e) }}></i></span>
-                                        <span style={{ float: "right" }}><i className="fa fa-minus-circle" onClick={() => { unCompleteItem(e) }}></i></span>
-                                        <span style={{ float: "right" }}><i className="fa fa-edit" onClick={() => updateItem(e)}></i></span>
+                                        <span style={{ float: "right" }}><i title="remove task" className="fa fa-times-circle" onClick={() => { removeItem(e) }}></i></span>
+                                        <span style={{ float: "right" }}><i title="complete task" className="fa fa-check-circle" onClick={() => { completeItem(e) }}></i></span>
+                                        <span style={{ float: "right" }}><i title="uncomplete task" className="fa fa-minus-circle" onClick={() => { unCompleteItem(e) }}></i></span>
+                                        <span style={{ float: "right" }}><i title="update task" className="fa fa-edit" onClick={() => updateItem(e)}></i></span>
                                         <span><h6>{e.priority}</h6></span><br/>
                                         <span>{e.isCompleted ? <strike>{e.content}</strike> : e.content} </span><br />
                                     </div>
