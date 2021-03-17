@@ -20,7 +20,7 @@ const TodoList = () => {
     const handleChangeFilter = (e) => {
         e.target.value && e.target.value != "All" ? 
             setList(
-                list.filter((data) => data.priority.includes(e.target.value) || data.colour.includes(e.target.value) || data.content.includes(e.target.value))
+                list.filter((data) => data.priority.toLowerCase().includes(e.target.value.toLowerCase()) || data.colour.toLowerCase().includes(e.target.value.toLowerCase()) || data.content.toLowerCase().includes(e.target.value.toLowerCase()))
             )
         :
 
@@ -43,8 +43,6 @@ const TodoList = () => {
     }
 
     const completeItem = (e) => {
-        completed.push(e);
-
         var array = [...list];
         var index = array.indexOf(e);
 
@@ -55,6 +53,8 @@ const TodoList = () => {
             colour: e.colour,
             isCompleted: true,
         };
+
+        completed.push(item);
 
         if (index !== -1) {
             array.splice(index, 1);
@@ -117,6 +117,11 @@ const TodoList = () => {
             setData(list);
         }
     }
+    
+    let btn_class_high = priority == "High" ? "btn btn-danger" : "btn btn-secondary";
+    let btn_class_medium = priority == "Medium" ? "btn btn-success" : "btn btn-secondary";
+    let btn_class_low = priority == "Low" ? "btn btn-warning" : "btn btn-secondary";
+
 
     return (
         <div>
@@ -130,7 +135,7 @@ const TodoList = () => {
                 </div>
 
                 <div className="button text-right">
-                    <button className="btn btn-primary" onClick={() => setModal(true)}>Add New</button>
+                    <button className="btn btn-primary" style={{  width : '300px',height : '50px'}} onClick={() => setModal(true)}>Add New</button>
                 </div>
 
                 <div className="d-flex align-items-center p-2">
@@ -165,7 +170,7 @@ const TodoList = () => {
                                         <span style={{ float: "right" }}><i title="uncomplete task" className="fa fa-minus-circle" onClick={() => { unCompleteItem(e) }}></i></span>
                                         <span style={{ float: "right" }}><i title="update task" className="fa fa-edit" onClick={() => updateItem(e)}></i></span>
                                         <h6>{e.priority}</h6><br/>
-                                        {e.isCompleted ? <strike>{e.content}</strike> : e.content}<br />
+                                        {e.isCompleted ? <strike>{e.content}</strike> : e.content}
                                     </div>
                                 </div>
                             )
@@ -187,13 +192,13 @@ const TodoList = () => {
                         </textarea>
                     </div>
                     <div className="tags">
-                        <button type="button" onClick={(event) => {
+                        <button type="button" className={btn_class_high} onClick={(event) => {
                             setPriority(event.target.value);
-                        }} value="High">High</button>
-                        <button type="button" onClick={(event) => {
+                        }} value="High">High</button>&nbsp;
+                        <button type="button" className={btn_class_medium} onClick={(event) => {
                             setPriority(event.target.value);
-                        }} value="Medium">Medium</button>
-                        <button type="button" onClick={(event) => {
+                        }} value="Medium">Medium</button>&nbsp;
+                        <button type="button" className={btn_class_low} onClick={(event) => {
                             setPriority(event.target.value);
                         }} value="Low">Low</button>
 
