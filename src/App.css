@@ -1,57 +1,32 @@
+body{
+  background-color: rgba(214, 221, 220, 0.493);
+}
+
 .header-container{
   height : 250px;
-  background-color: #d5dfe6;
+  background-color: #dddddd;
   padding : 25px;
 }
 
-.header{
-  margin-top : 50px;
-  margin-left: 20px;
-}
-.header-topic{
-  font-size : 40px;
-}
-.button{
-  margin-top : -45px;
-  margin-right: 30px;
-}
-
-.btn{
-  width : 300px;
-  height : 50px;
-}
-
 .todo-list-container{
-  margin-top:30px;
-  margin-left:450px; 
-  height : 450px;
-  width:700px;
+  height: auto;
   overflow: auto;
-  background-color: lightblue;
   padding: 20px;
 }
 
 .todo-content{
-  height: 100px;
+  height: auto;
+  width: auto;
   padding: 10px;
   overflow: auto;
 }
-
-.searchbar{
-  margin-bottom: auto;
-  margin-top: 20px;
-  height: 50px;
-  background-color: white;
-  border-radius: 30px;
-  padding: 10px;
-}
-
   .search_input{
   border: 0;
   outline: 0;
-  background: none;
-  width: 0;
+  background-color: white;
+  height: 50px;
   line-height: 40px;
-  padding: 0 10px;
-  width: 600px;
+  padding: 0 15px;
+  width: 800px;
+  border-radius: 30px;
 }
